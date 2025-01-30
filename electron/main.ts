@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import axios from 'axios'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
@@ -34,16 +35,18 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 
 let win: BrowserWindow | null
 
-function createWindow() {
-  win = new BrowserWindow({
-    width: 1920,
+const windowObject = {
+  width: 1920,
     height: 1080,
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       contextIsolation: true, // true로 설정 (기본값)
       nodeIntegration: false, // Node.js 직접 접근 금지
     },
-  })
+}
+
+function createWindow() {
+  win = new BrowserWindow(windowObject);
 
   if (isDev) {
     win.webContents.openDevTools()
@@ -123,6 +126,21 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+app.on('ready', () => {
+  if (!win) return;
+  autoUpdater.checkForUpdatesAndNotify();
+
+  autoUpdater.on('update-available', () => {
+    if (!win) return;
+    win.webContents.send('update_available');
+  })
+
+  autoUpdater.on('update-downloaded', () => {
+    if (!win) return;
+    win.webContents.send('update_downloaded');
+  })
 })
 
 app.whenReady().then(createWindow)

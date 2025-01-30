@@ -191,8 +191,8 @@ export default function App() {
   }
 
   const navigate = useNavigate();
-  const switchRoute = () => {
-    navigate("/generator");
+  const switchRoute = (param: string) => {
+    navigate("/"+param);
   }
 
   return (
@@ -218,6 +218,13 @@ export default function App() {
         >
           데이터 동기화
         </button>
+
+        <button
+          className="pretendard bg-[#6757C8] hover:bg-[#584AAB] h-10 w-36 rounded-lg text-[#F2F2F2] mx-2 font-bold text-base"
+          onClick={() => {switchRoute("statistics")}}
+        >
+          최근(15회) 통계 조회
+        </button>
       
       {
         isDefault ? (
@@ -236,7 +243,7 @@ export default function App() {
       <div className="flex justify-center items-center px-3 rounded-lg ">
         <button 
           className="pretendard bg-[#3E3C62] hover:bg-[#353354] m-1 h-10 w-32 rounded-lg text-[#F2F2F2] mx-2 font-bold text-base"
-          onClick={switchRoute}
+          onClick={() => switchRoute("generator")}
         >번호 추첨</button>
       </div>
       </div>

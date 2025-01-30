@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { Generator } from './pages/Generator.tsx'
+import { Statistics } from './pages/Statistics.tsx'
 
 const Router = () => {
   return (
@@ -11,6 +12,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/generator" element={<Generator />} />
+        <Route path="/statistics" element={<Statistics />} />
       </Routes>
     </HashRouter>
   )

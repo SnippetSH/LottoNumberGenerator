@@ -60,4 +60,10 @@ const runDataSearching = async (num: number): Promise<ResultData> => {
     return {"result": result, "length": resultData.length};
 }
 
-export { runDataParsing, runDataSearching, getLastLottoData, updateData };
+const runSpecificDataSearching = async (times: number): Promise<LottoData> => {
+    const data: LottoData[] = await readLottoData();
+    const resultData = data.filter((data) => data.times === times);
+    return resultData[0];
+}
+
+export { runDataParsing, runDataSearching, getLastLottoData, updateData, runSpecificDataSearching };
